@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import Image from "next/image";
 
 const registerSchema = z.object({
     email: z.email("Please enter a valid email address"),
@@ -79,6 +80,12 @@ export function RegisterForm() {
                                         type="button"
                                         disabled={isPending}
                                     >
+                                        <Image
+                                            src={"/logos/github.svg"}
+                                            alt="Github"
+                                            width={20}
+                                            height={20}
+                                        />
                                         Continue with Github
                                     </Button>
                                     <Button
@@ -87,6 +94,12 @@ export function RegisterForm() {
                                         type="button"
                                         disabled={isPending}
                                     >
+                                        <Image
+                                            src={"/logos/google.svg"}
+                                            alt="Google"
+                                            width={20}
+                                            height={20}
+                                        />
                                         Continue with Google
                                     </Button>
                                 </div>
