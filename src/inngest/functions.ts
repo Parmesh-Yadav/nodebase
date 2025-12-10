@@ -22,6 +22,11 @@ export const execute = inngest.createFunction(
         system:
           "You are a helpful assistant that helps users with their tasks.",
         prompt: "What is 2 + 2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -33,6 +38,11 @@ export const execute = inngest.createFunction(
         system:
           "You are a helpful assistant that helps users with their tasks.",
         prompt: "What is 2 + 2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -44,6 +54,11 @@ export const execute = inngest.createFunction(
         system:
           "You are a helpful assistant that helps users with their tasks.",
         prompt: "What is 2 + 2?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
