@@ -13,7 +13,6 @@ export const AddNoteButton = memo(() => {
             <Button
                 size="icon"
                 variant="outline"
-                onClick={() => { }}
                 className="bg-background"
             >
                 <PlusIcon />
