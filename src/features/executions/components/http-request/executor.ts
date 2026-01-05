@@ -3,6 +3,7 @@ import { NonRetriableError } from "inngest";
 import ky, { type Options as KYOptions } from "ky";
 
 type HTTPRequestData = {
+  variableName?: string;
   endpoint?: string;
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
@@ -21,6 +22,11 @@ export const httpRequestExecutor: NodeExecutor<HTTPRequestData> = async ({
     throw new NonRetriableError("No endpoint provided for HTTP request");
   }
 
+  if (!data.variableName) {
+    // TODO: publish "error" state for HTTP request
+    throw new NonRetriableError("No variable name provided for HTTP request");
+  }
+
   const result = await step.run(`http-request-${nodeId}`, async () => {
     const endpoint = data.endpoint!;
     const method = data.method || "GET";
@@ -29,6 +35,9 @@ export const httpRequestExecutor: NodeExecutor<HTTPRequestData> = async ({
 
     if (["POST", "PUT", "PATCH"].includes(method)) {
       options.body = data.body;
+      options.headers = {
+        "Content-Type": "application/json",
+      };
     }
 
     const response = await ky(endpoint, options);
@@ -37,13 +46,25 @@ export const httpRequestExecutor: NodeExecutor<HTTPRequestData> = async ({
       ? await response.json().catch(() => response.text())
       : await response.text();
 
-    return {
-      ...context,
+    const responsePayLoad = {
       httpResponse: {
         status: response.status,
         statusText: response.statusText,
         data: responseData,
       },
+    };
+
+    if (data.variableName) {
+      return {
+        ...context,
+        [data.variableName]: responsePayLoad,
+      };
+    }
+
+    //fallbach to direct httpResonpse for backward compatibility
+    return {
+      ...context,
+      ...responsePayLoad,
     };
   });
 
