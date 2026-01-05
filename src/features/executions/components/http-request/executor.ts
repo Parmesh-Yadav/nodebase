@@ -1,11 +1,19 @@
 import type { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import ky, { type Options as KYOptions } from "ky";
+import HandleBars from "handlebars";
+
+HandleBars.registerHelper("json", (context) => {
+  const jsonString = JSON.stringify(context, null, 2);
+  const safeString = new HandleBars.SafeString(jsonString);
+  return safeString;
+}
+);
 
 type HTTPRequestData = {
-  variableName?: string;
-  endpoint?: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  variableName: string;
+  endpoint: string;
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
 };
 
@@ -27,14 +35,21 @@ export const httpRequestExecutor: NodeExecutor<HTTPRequestData> = async ({
     throw new NonRetriableError("No variable name provided for HTTP request");
   }
 
+  if (!data.method) {
+    // TODO: publish "error" state for HTTP request
+    throw new NonRetriableError("No method provided for HTTP request");
+  }
+
   const result = await step.run(`http-request-${nodeId}`, async () => {
-    const endpoint = data.endpoint!;
-    const method = data.method || "GET";
+    const endpoint = HandleBars.compile(data.endpoint)(context);
+    const method = data.method;
 
     const options: KYOptions = { method };
 
     if (["POST", "PUT", "PATCH"].includes(method)) {
-      options.body = data.body;
+      const resolved = HandleBars.compile(data.body || "{}")(context);
+      JSON.parse(resolved); // Validate JSON
+      options.body = resolved;
       options.headers = {
         "Content-Type": "application/json",
       };
@@ -54,17 +69,9 @@ export const httpRequestExecutor: NodeExecutor<HTTPRequestData> = async ({
       },
     };
 
-    if (data.variableName) {
-      return {
-        ...context,
-        [data.variableName]: responsePayLoad,
-      };
-    }
-
-    //fallbach to direct httpResonpse for backward compatibility
     return {
       ...context,
-      ...responsePayLoad,
+      [data.variableName]: responsePayLoad,
     };
   });
 
