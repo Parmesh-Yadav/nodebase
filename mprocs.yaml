@@ -5,5 +5,8 @@ procs:
   next:
     cmd: ["npm","run","dev"]
 
+  ngrok:
+    cmd: ["npm","run","ngrok:dev"]
+
   prisma:
     cmd: ["npx", "prisma", "studio"]
