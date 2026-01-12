@@ -11,9 +11,9 @@ HandleBars.registerHelper("json", (context) => {
 });
 
 type HTTPRequestData = {
-  variableName: string;
-  endpoint: string;
-  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+  variableName?: string;
+  endpoint?: string;
+  method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   body?: string;
 };
 
@@ -31,38 +31,39 @@ export const httpRequestExecutor: NodeExecutor<HTTPRequestData> = async ({
     })
   );
 
-  if (!data.endpoint) {
-    await publish(
-      httpRequestChannel().status({
-        nodeId,
-        status: "error",
-      })
-    );
-    throw new NonRetriableError("No endpoint provided for HTTP request");
-  }
-
-  if (!data.variableName) {
-    await publish(
-      httpRequestChannel().status({
-        nodeId,
-        status: "error",
-      })
-    );
-    throw new NonRetriableError("No variable name provided for HTTP request");
-  }
-
-  if (!data.method) {
-    await publish(
-      httpRequestChannel().status({
-        nodeId,
-        status: "error",
-      })
-    );
-    throw new NonRetriableError("No method provided for HTTP request");
-  }
-
   try {
     const result = await step.run(`http-request-${nodeId}`, async () => {
+      if (!data.endpoint) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          })
+        );
+        throw new NonRetriableError("No endpoint provided for HTTP request");
+      }
+
+      if (!data.variableName) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          })
+        );
+        throw new NonRetriableError(
+          "No variable name provided for HTTP request"
+        );
+      }
+
+      if (!data.method) {
+        await publish(
+          httpRequestChannel().status({
+            nodeId,
+            status: "error",
+          })
+        );
+        throw new NonRetriableError("No method provided for HTTP request");
+      }
       const endpoint = HandleBars.compile(data.endpoint)(context);
       const method = data.method;
 
