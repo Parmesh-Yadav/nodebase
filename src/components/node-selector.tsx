@@ -54,6 +54,24 @@ const executionNodes: NodeTypeOption[] = [
         description: "Make HTTP requests to interact with RESTful APIs and web services.",
         icon: GlobeIcon
     },
+    {
+        type: NodeType.GEMINI,
+        label: "Gemini",
+        description: "Interact with Gemini services and APIs.",
+        icon: "/logos/gemini.svg"
+    },
+    {
+        type: NodeType.OPENAI,
+        label: "OpenAI",
+        description: "Interact with OpenAI services and APIs.",
+        icon: "/logos/openai.svg"
+    },
+    {
+        type: NodeType.ANTHROPIC,
+        label: "Anthropic",
+        description: "Interact with Anthropic services and APIs.",
+        icon: "/logos/anthropic.svg"
+    },
 ];
 
 interface NodeSelectorProps {
