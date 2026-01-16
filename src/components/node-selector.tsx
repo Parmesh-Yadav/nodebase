@@ -57,20 +57,32 @@ const executionNodes: NodeTypeOption[] = [
     {
         type: NodeType.GEMINI,
         label: "Gemini",
-        description: "Interact with Gemini services and APIs.",
+        description: "Uses google gemini to generate text.",
         icon: "/logos/gemini.svg"
     },
     {
         type: NodeType.OPENAI,
         label: "OpenAI",
-        description: "Interact with OpenAI services and APIs.",
+        description: "Uses OpenAI to generate text.",
         icon: "/logos/openai.svg"
     },
     {
         type: NodeType.ANTHROPIC,
         label: "Anthropic",
-        description: "Interact with Anthropic services and APIs.",
+        description: "Uses Anthropic to generate text.",
         icon: "/logos/anthropic.svg"
+    },
+    {
+        type: NodeType.DISCORD,
+        label: "Discord",
+        description: "Send a message to a Discord channel.",
+        icon: "/logos/discord.svg"
+    },
+    {
+        type: NodeType.SLACK,
+        label: "Slack",
+        description: "Send a message to a Slack channel.",
+        icon: "/logos/slack.svg"
     },
 ];
 
