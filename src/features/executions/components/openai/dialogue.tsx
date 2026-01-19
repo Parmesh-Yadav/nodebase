@@ -12,7 +12,7 @@ import z from "zod";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Image from "next/image";
 import { useCredentialsByType } from "@/features/credentials/hooks/use-credentials";
-import { CredentialType } from "@prisma/client";
+import { CredentialTypeValues } from "@/config/prisma-enums";
 
 const formSchema = z.object({
     variableName: z.string()
@@ -40,7 +40,7 @@ export const OpenAIDialogue = ({
     defaultValues = {}
 }: Props) => {
 
-    const { data: credentials, isLoading: isLoadingCredentials } = useCredentialsByType(CredentialType.OPENAI);
+    const { data: credentials, isLoading: isLoadingCredentials } = useCredentialsByType(CredentialTypeValues.OPENAI);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),

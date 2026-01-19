@@ -1,6 +1,6 @@
 "use client";
 
-import { CredentialType } from "@prisma/client";
+import { CredentialTypeValues, type CredentialType } from "@/config/prisma-enums";
 import { useRouter } from "next/navigation";
 import { useCreateCredential, useUpdateCredential, useSuspenseCredential } from "../hooks/use-credentials";
 import { useUpgradeModal } from "@/hooks/use-upgrade-modal";
@@ -15,9 +15,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+const credentialTypes = [
+    CredentialTypeValues.OPENAI,
+    CredentialTypeValues.ANTHROPIC,
+    CredentialTypeValues.GEMINI,
+] as const;
+
 const formSchema = z.object({
     name: z.string().min(1, "Name is required"),
-    type: z.enum(CredentialType),
+    type: z.enum(credentialTypes),
     value: z.string().min(1, "Value is required"),
 });
 
@@ -25,17 +31,17 @@ type FormValues = z.infer<typeof formSchema>;
 
 const credentialTypeOptions = [
     {
-        value: CredentialType.OPENAI,
+        value: CredentialTypeValues.OPENAI,
         label: "OpenAI",
         logo: "/logos/openai.svg",
     },
     {
-        value: CredentialType.ANTHROPIC,
+        value: CredentialTypeValues.ANTHROPIC,
         label: "Anthropic",
         logo: "/logos/anthropic.svg",
     },
     {
-        value: CredentialType.GEMINI,
+        value: CredentialTypeValues.GEMINI,
         label: "Gemini",
         logo: "/logos/gemini.svg",
     },
@@ -63,7 +69,7 @@ export const CredentialForm = ({ initialData }: CredentialFormProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: initialData?.name || "",
-            type: initialData?.type || CredentialType.GEMINI,
+            type: initialData?.type || CredentialTypeValues.GEMINI,
             value: initialData?.value || "",
         }
     });

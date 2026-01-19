@@ -8,20 +8,20 @@ import { SlackNode } from "@/features/executions/components/slack/node";
 import { GoogleFormTriggerNode } from "@/features/triggers/components/google-form-trigger/node";
 import { ManualTriggerNode } from "@/features/triggers/components/manual-trigger/node";
 import { StripeTriggerNode } from "@/features/triggers/components/stripe-trigger/node";
-import { NodeType } from "@prisma/client";
+import { NodeTypeValues } from "@/config/prisma-enums";
 import { NodeTypes } from "@xyflow/react";
 
 export const nodeComponents = {
-  [NodeType.INITIAL]: InitialNode,
-  [NodeType.HTTP_REQUEST]: HttpRequestNode,
-  [NodeType.MANUAL_TRIGGER]: ManualTriggerNode,
-  [NodeType.GOOGLE_FORM_TRIGGER]: GoogleFormTriggerNode,
-  [NodeType.STRIPE_TRIGGER]: StripeTriggerNode,
-  [NodeType.GEMINI]: GeminiNode,
-  [NodeType.OPENAI]: OpenAINode,
-  [NodeType.ANTHROPIC]: AnthropicNode,
-  [NodeType.DISCORD]: DiscordNode,
-  [NodeType.SLACK]: SlackNode,
+  [NodeTypeValues.INITIAL]: InitialNode,
+  [NodeTypeValues.HTTP_REQUEST]: HttpRequestNode,
+  [NodeTypeValues.MANUAL_TRIGGER]: ManualTriggerNode,
+  [NodeTypeValues.GOOGLE_FORM_TRIGGER]: GoogleFormTriggerNode,
+  [NodeTypeValues.STRIPE_TRIGGER]: StripeTriggerNode,
+  [NodeTypeValues.GEMINI]: GeminiNode,
+  [NodeTypeValues.OPENAI]: OpenAINode,
+  [NodeTypeValues.ANTHROPIC]: AnthropicNode,
+  [NodeTypeValues.DISCORD]: DiscordNode,
+  [NodeTypeValues.SLACK]: SlackNode,
 } as const satisfies NodeTypes;
 
 export type RegisteredNodeTypes = keyof typeof nodeComponents;

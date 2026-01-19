@@ -4,8 +4,16 @@ import { EmptyView, EntityContainer, EntityHeader, EntityItem, EntityList, Entit
 import { formatDistanceToNow } from "date-fns"
 import { useExecutionsParams } from "../hooks/use-executions-params";
 import { useSuspenseExecutions } from "../hooks/use-executions";
-import { Execution, ExecutionStatus } from "@prisma/client";
+import type { Execution } from "@prisma/client";
 import { CheckCircle2Icon, ClockIcon, Loader2Icon, XCircleIcon } from "lucide-react";
+
+const ExecutionStatusValues = {
+    RUNNING: "RUNNING",
+    SUCCESS: "SUCCESS",
+    FAILED: "FAILED",
+} as const;
+
+type ExecutionStatus = (typeof ExecutionStatusValues)[keyof typeof ExecutionStatusValues];
 
 export const ExecutionsList = () => {
     const executions = useSuspenseExecutions();
@@ -73,11 +81,11 @@ export const ExecutionsEmpty = () => {
 
 export const getStatusIcon = (status: ExecutionStatus) => {
     switch (status) {
-        case ExecutionStatus.RUNNING:
+        case ExecutionStatusValues.RUNNING:
             return <Loader2Icon className="size-5 text-blue-600 animate-spin" />;
-        case ExecutionStatus.SUCCESS:
+        case ExecutionStatusValues.SUCCESS:
             return <CheckCircle2Icon className="size-5 text-green-600" />;
-        case ExecutionStatus.FAILED:
+        case ExecutionStatusValues.FAILED:
             return <XCircleIcon className="size-5 text-red-600" />;
         default:
             return <ClockIcon className="size-5 text-muted-foreground" />;

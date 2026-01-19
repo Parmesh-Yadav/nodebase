@@ -6,7 +6,8 @@ import { useEntitySeach } from "@/hooks/use-entity-search";
 import { formatDistanceToNow } from "date-fns"
 import { useCredentialsParams } from "../hooks/use-credentials-params";
 import { useRemoveCredential, useSuspenseCredentials } from "../hooks/use-credentials";
-import { type Credential, CredentialType } from "@prisma/client";
+import type { Credential } from "@prisma/client";
+import type { CredentialType } from "@/config/prisma-enums";
 import Image from "next/image";
 
 export const CredentialSearch = () => {

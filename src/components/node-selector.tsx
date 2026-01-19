@@ -16,7 +16,7 @@ import {
     SheetTitle,
     SheetTrigger
 } from "@/components/ui/sheet"
-import { NodeType } from "@prisma/client";
+import { NodeTypeValues, type NodeType } from "@/config/prisma-enums";
 import { Separator } from "./ui/separator";
 
 export type NodeTypeOption = {
@@ -28,19 +28,19 @@ export type NodeTypeOption = {
 
 const triggerNodes: NodeTypeOption[] = [
     {
-        type: NodeType.MANUAL_TRIGGER,
+        type: NodeTypeValues.MANUAL_TRIGGER,
         label: "Trigger manually",
         description: "Runs the flow on clicking a button. Good for getting started quickly.",
         icon: MousePointerIcon
     },
     {
-        type: NodeType.GOOGLE_FORM_TRIGGER,
+        type: NodeTypeValues.GOOGLE_FORM_TRIGGER,
         label: "Google form",
         description: "Runs the flow when a Google Form is submitted.",
         icon: "/logos/googleform.svg"
     },
     {
-        type: NodeType.STRIPE_TRIGGER,
+        type: NodeTypeValues.STRIPE_TRIGGER,
         label: "Stripe",
         description: "Runs the flow when a Stripe event occurs.",
         icon: "/logos/stripe.svg"
@@ -49,37 +49,37 @@ const triggerNodes: NodeTypeOption[] = [
 
 const executionNodes: NodeTypeOption[] = [
     {
-        type: NodeType.HTTP_REQUEST,
+        type: NodeTypeValues.HTTP_REQUEST,
         label: "HTTP Request",
         description: "Make HTTP requests to interact with RESTful APIs and web services.",
         icon: GlobeIcon
     },
     {
-        type: NodeType.GEMINI,
+        type: NodeTypeValues.GEMINI,
         label: "Gemini",
         description: "Uses google gemini to generate text.",
         icon: "/logos/gemini.svg"
     },
     {
-        type: NodeType.OPENAI,
+        type: NodeTypeValues.OPENAI,
         label: "OpenAI",
         description: "Uses OpenAI to generate text.",
         icon: "/logos/openai.svg"
     },
     {
-        type: NodeType.ANTHROPIC,
+        type: NodeTypeValues.ANTHROPIC,
         label: "Anthropic",
         description: "Uses Anthropic to generate text.",
         icon: "/logos/anthropic.svg"
     },
     {
-        type: NodeType.DISCORD,
+        type: NodeTypeValues.DISCORD,
         label: "Discord",
         description: "Send a message to a Discord channel.",
         icon: "/logos/discord.svg"
     },
     {
-        type: NodeType.SLACK,
+        type: NodeTypeValues.SLACK,
         label: "Slack",
         description: "Send a message to a Slack channel.",
         icon: "/logos/slack.svg"
@@ -101,9 +101,9 @@ export function NodeSelector({
     const { setNodes, getNodes, screenToFlowPosition } = useReactFlow();
 
     const handleNodeSelect = useCallback((selection: NodeTypeOption) => {
-        if (selection.type === NodeType.MANUAL_TRIGGER) {
+        if (selection.type === NodeTypeValues.MANUAL_TRIGGER) {
             const nodes = getNodes();
-            const hasManualTrigger = nodes.some((node) => node.type === NodeType.MANUAL_TRIGGER);
+            const hasManualTrigger = nodes.some((node) => node.type === NodeTypeValues.MANUAL_TRIGGER);
 
             if (hasManualTrigger) {
                 toast.error("Only one manual trigger node is allowed per workflow.");
@@ -112,7 +112,7 @@ export function NodeSelector({
         }
 
         setNodes((nodes) => {
-            const hasInitialTrigger = nodes.some((node) => node.type === NodeType.INITIAL);
+            const hasInitialTrigger = nodes.some((node) => node.type === NodeTypeValues.INITIAL);
 
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;

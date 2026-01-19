@@ -23,7 +23,7 @@ import { nodeComponents } from "@/config/node-components";
 import { AddNoteButton } from "./add-node-button";
 import { useSetAtom } from "jotai";
 import { editorAtom } from "../store/atoms";
-import { NodeType } from "@prisma/client";
+import { NodeTypeValues } from "@/config/prisma-enums";
 import { ExecuteWorkflowButton } from "./execute-workflow-button";
 
 export const EditorLoading = () => {
@@ -56,7 +56,7 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
     );
 
     const hasManualTrigger = useMemo(() => {
-        return nodes.some(node => node.type === NodeType.MANUAL_TRIGGER);
+        return nodes.some(node => node.type === NodeTypeValues.MANUAL_TRIGGER);
     }, [nodes])
 
     return (

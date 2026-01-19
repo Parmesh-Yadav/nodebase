@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useCredentialsByType } from "@/features/credentials/hooks/use-credentials";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CredentialType } from "@prisma/client";
+import { CredentialTypeValues } from "@/config/prisma-enums";
 import { SelectTrigger, SelectValue, SelectContent, SelectItem, Select } from "@/components/ui/select";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -38,7 +38,7 @@ export const GeminiDialogue = ({
     onSubmit,
     defaultValues = {}
 }: Props) => {
-    const { data: credentials, isLoading: isLoadingCredentials } = useCredentialsByType(CredentialType.GEMINI);
+    const { data: credentials, isLoading: isLoadingCredentials } = useCredentialsByType(CredentialTypeValues.GEMINI);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
