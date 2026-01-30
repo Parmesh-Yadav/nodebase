@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Provider } from "jotai";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
             <Provider>
               {children}
               <Toaster />
+              <SpeedInsights />
             </Provider>
           </NuqsAdapter>
         </TRPCReactProvider>
